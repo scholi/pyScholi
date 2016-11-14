@@ -1,3 +1,5 @@
+import numpy as np
+
 def Lorentz(x,x0,G,Amp=1):
 	return Amp*(.5*G)**2/((x-x0)**2+(.5*G)**2)
 
