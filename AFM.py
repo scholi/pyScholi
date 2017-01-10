@@ -5,14 +5,14 @@ import scipy.optimize
 import matplotlib
 
 
-def plotSweepRes(Path,ax=None,idx=2,fit=False,xlabel="Frequency [Hz]",color='bo'):
+def plotSweepRes(Path,ax=None,idx=2,fit=False,xlabel="Frequency [Hz]",color='bo',xscale=1,yscale=1,ylabel=""):
 	if ax==None:
 		fig, ax = plt.subplots(1,1,figsize=(7,5))
 	y_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
 	ax.xaxis.set_major_formatter(y_formatter)
 
 	A = np.loadtxt("{root}\\Data.csv".format(root=Path),delimiter=',')
-	ax.plot(A[:,0],A[:,idx],color)
+	ax.plot(A[:,0]*xscale,A[:,idx]*yscale,color)
 	f = np.linspace(min(A[:,0]),max(A[:,0]),100)
 	x0=A[np.argmax(A[:,idx]),0]
 	A0=np.max(A[:,idx])
@@ -26,3 +26,4 @@ def plotSweepRes(Path,ax=None,idx=2,fit=False,xlabel="Frequency [Hz]",color='bo'
 		ax.axvline(p1[0],color='r',linestyle='--');
 		ax.annotate("{:.0f}Hz".format(p1[0]),(p1[0],1.1*min(A[:,idx])));
 	ax.set_xlabel(xlabel)
+	if ylabel!="": ax.set_ylabel(ylabel)
