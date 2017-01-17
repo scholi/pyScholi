@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 
 def Lorentz(x,x0,G,Amp=1):
 	return Amp*(.5*G)**2/((x-x0)**2+(.5*G)**2)
@@ -13,3 +14,6 @@ def ShiftDetect(A,B):
 
 def normalize(x):
 	return (x-np.min(x))/(np.max(x)-np.min(x))
+
+def CDF(x,mu,sig):
+	return .5*(1+scipy.special.erf((x-mu)/(sig*np.sqrt(2))))
