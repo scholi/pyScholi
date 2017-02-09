@@ -1,1 +1,1 @@
-_all__ = [ "aa", "AFM", "math" ]
+_all__ = [ "aa", "AFM", "math" ,"science","plot"]

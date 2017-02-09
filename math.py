@@ -4,7 +4,9 @@ import scipy
 def Lorentz(x,x0,G,Amp=1):
 	return Amp*(.5*G)**2/((x-x0)**2+(.5*G)**2)
 
-def Gauss(x,x0,sig,Amp=1):
+def Gauss(x,x0,sig,Amp=1,norm=False):
+	if norm:
+		Amp=1/(sig*np.sqrt(2*np.pi))
 	return Amp*np.exp(-(x-x0)**2/(2*sig**2))
 
 def ShiftDetect(A,B):
