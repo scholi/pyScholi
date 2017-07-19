@@ -9,6 +9,14 @@ def Gauss(x,x0,sig,Amp=1,norm=False):
 		Amp=1/(sig*np.sqrt(2*np.pi))
 	return Amp*np.exp(-(x-x0)**2/(2*sig**2))
 
+def LG(x, x0, sig=None, Amp=1, lg=.5, FWHM=None):
+    assert sig is not None or FWHM is not None
+    if FWHM is None:
+        FWHM = 2*np.sqrt(2*np.log(2))*sig
+    if sig is None:
+        sig = FWHM/(2*np.sqrt(2*np.log(2)))
+    return Amp*((1-lg)*Gauss(x,x0,sig)+lg*Lorentz(x,x0,FWHM))
+
 def ShiftDetect(A,B):
 	Corr = np.fft.fftshift(np.real(np.fft.ifft2(np.conj(np.fft.fft2(A))*np.fft.fft2(B))))
 	c = np.unravel_index(Corr.argmax(), Corr.shape)
@@ -101,3 +109,6 @@ def fact(x):
 	if x>1:
 		f.append(x)
 	return f
+
+def logistic(x, lower=0, upper=1, growth=1, x0=0, nu=1, C=1):
+    return lower+(upper-lower)/(C+np.exp(-growth*(x-x0)))**(1/nu)

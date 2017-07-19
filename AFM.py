@@ -27,3 +27,20 @@ def plotSweepRes(Path,ax=None,idx=2,fit=False,xlabel="Frequency [Hz]",color='bo'
 		ax.annotate("{:.0f}Hz".format(p1[0]),(p1[0],1.1*min(A[:,idx])));
 	ax.set_xlabel(xlabel)
 	if ylabel!="": ax.set_ylabel(ylabel)
+
+def PlotDeflCalib(filename, ax=None):
+    import os
+    import pySPM
+    import matplotlib.pyplot as plt
+    
+    if ax is None:
+        ax = plt.gca()
+        
+    x,y = pySPM.nanoscan.getCurve(filename)
+    ax.plot(x*1e9,y*1000)
+    p = np.polyfit(x[x<0]*1e9,y[x<0],1)
+    ax.plot(x*1e9,np.polyval(p,x*1e9)*1000,label="{:.2f} nm/V".format(1/p[0]))
+    ax.legend()
+    ax.set_xlabel("z-distance [nm]")
+    ax.set_ylabel("Normal Deflection [mV]")
+    return 1/p[0]
